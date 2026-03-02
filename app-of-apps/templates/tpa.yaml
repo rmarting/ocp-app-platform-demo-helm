@@ -60,6 +60,8 @@ spec:
                     secretKeyRef:
                       name: oidc-tpa-cli
                       key: client-secret
+          createDatabase: {}
+          migrateDatabase: {}
           modules:
             createDatabase:
               enabled: true
