@@ -22,4 +22,9 @@ spec:
       enabled: false
     tracing:
       enabled: false
+    prometheus:
+      url: https://thanos-querier.openshift-monitoring.svc.cluster.local:9091
+      auth:
+        type: bearer
+        use_kiali_token: true
   istio_namespace: {{ .Values.istio.namespace }}
