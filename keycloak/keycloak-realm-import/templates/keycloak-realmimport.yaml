@@ -95,12 +95,7 @@ spec:
         - id: {{ uuidv4 }}
           name: tpa-user
           description: "TPA user role with read and create document permissions"
-          composite: true
-          composites:
-            client:
-              tpa-frontend:
-                - read:document
-                - create:document
+          composite: false
           clientRole: false
           containerId: {{ $.Values.realm.name }}
           attributes: {}
@@ -111,9 +106,6 @@ spec:
           composites:
             realm:
               - tpa-user
-            client:
-              tpa-frontend:
-                - update:document
           clientRole: false
           containerId: {{ $.Values.realm.name }}
           attributes: {}
@@ -124,9 +116,6 @@ spec:
           composites:
             realm:
               - tpa-manager
-            client:
-              tpa-frontend:
-                - delete:document
           clientRole: false
           containerId: {{ $.Values.realm.name }}
           attributes: {}
