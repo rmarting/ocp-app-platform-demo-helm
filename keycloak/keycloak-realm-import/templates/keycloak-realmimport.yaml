@@ -878,6 +878,16 @@ spec:
         authenticationFlowBindingOverrides: {}
         fullScopeAllowed: true
         nodeReRegistrationTimeout: -1
+        protocolMappers:
+          - id: {{ uuidv4 }}
+            name: "tpa-frontend-audience"
+            protocol: "openid-connect"
+            protocolMapper: "oidc-audience-mapper"
+            consentRequired: false
+            config:
+              included.client.audience: "tpa-frontend"
+              id.token.claim: "true"
+              access.token.claim: "true"
         defaultClientScopes:
           - web-origins
           - acr
