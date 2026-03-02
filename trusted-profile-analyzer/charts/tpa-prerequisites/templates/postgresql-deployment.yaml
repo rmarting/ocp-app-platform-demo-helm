@@ -56,15 +56,20 @@ spec:
                 secretKeyRef:
                   key: database-name
                   name: {{ include "tpa-prerequisites.name" . }}
-          {{- if eq .Values.persistence.mode "persistent" }}
           volumeMounts:
+            - name: "{{ include "tpa-prerequisites.name" . }}-start"
+              mountPath: "/opt/app-root/src/postgresql-start"
+          {{- if eq .Values.persistence.mode "persistent" }}
             - name: "{{ include "tpa-prerequisites.name" . }}-data"
               mountPath: "/var/lib/pgsql/data"
           {{- end }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-      {{- if eq .Values.persistence.mode "persistent" }}
       volumes:
+        - name: "{{ include "tpa-prerequisites.name" . }}-start"
+          configMap:
+            name: {{ include "tpa-prerequisites.name" . }}-start
+      {{- if eq .Values.persistence.mode "persistent" }}
         - name: "{{ include "tpa-prerequisites.name" . }}-data"
           persistentVolumeClaim:
             claimName: {{ include "tpa-prerequisites.name" . }}
