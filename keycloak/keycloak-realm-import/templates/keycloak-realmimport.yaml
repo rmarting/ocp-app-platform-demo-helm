@@ -858,7 +858,8 @@ spec:
 {{- range .Values.client.tpaFrontend.redirectUri }}
           - {{ . | quote }}
 {{- end }}
-        webOrigins: []
+        webOrigins:
+          - "+"
         notBefore: 0
         bearerOnly: false
         consentRequired: false
