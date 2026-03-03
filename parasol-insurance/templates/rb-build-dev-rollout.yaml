@@ -13,4 +13,7 @@ subjects:
   - kind: ServiceAccount
     name: parasol-insurance-build
     namespace: {{ $.Values.build.namespace }}
+  - kind: ServiceAccount
+    name: pipeline
+    namespace: {{ $.Values.build.namespace }}
 {{- end }}
