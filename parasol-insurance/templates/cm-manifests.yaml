@@ -105,6 +105,7 @@ data:
               enable_ssl_verification: false
             validate_certs: false
             status_code: 201
+          register: r_new_hook
           when: _existing_hooks | length == 0
 
         - name: Update existing webhook
@@ -122,3 +123,40 @@ data:
               enable_ssl_verification: false
             validate_certs: false
           when: _existing_hooks | length > 0
+
+        - name: Set webhook ID
+          ansible.builtin.set_fact:
+            _hook_id: "{{ "{{" }} (_existing_hooks | length > 0) | ternary(_existing_hooks[0].id, r_new_hook.json.id | default('')) {{ "}}" }}"
+
+        - name: Create 1.0 tag for initial prod release
+          ansible.builtin.uri:
+            url: "https://{{ $.Values.gitlab.host }}/api/v4/projects/{{ "{{" }} r_project.json.id {{ "}}" }}/repository/tags"
+            method: POST
+            headers:
+              PRIVATE-TOKEN: "{{ "{{" }} lookup('env', 'GITLAB_TOKEN') {{ "}}" }}"
+            body_format: json
+            body:
+              tag_name: "1.0"
+              ref: "main"
+              message: "Initial release"
+            validate_certs: false
+            status_code:
+              - 201
+              - 400
+          register: r_tag
+          failed_when:
+            - r_tag.status == 400
+            - "'already exists' not in (r_tag.json | default({}) | string)"
+
+        - name: Trigger initial dev build
+          ansible.builtin.uri:
+            url: "https://{{ $.Values.gitlab.host }}/api/v4/projects/{{ "{{" }} r_project.json.id {{ "}}" }}/hooks/{{ "{{" }} _hook_id {{ "}}" }}/test/push_events"
+            method: POST
+            headers:
+              PRIVATE-TOKEN: "{{ "{{" }} lookup('env', 'GITLAB_TOKEN') {{ "}}" }}"
+            validate_certs: false
+            status_code:
+              - 200
+              - 201
+          when: _hook_id | length > 0
+          ignore_errors: true
