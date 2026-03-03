@@ -17,7 +17,7 @@ spec:
     devWorkspace: {}
     devfileRegistry: {}
     imagePuller:
-      enable: false
+      enable: true
     metrics:
       enable: true
     pluginRegistry:
