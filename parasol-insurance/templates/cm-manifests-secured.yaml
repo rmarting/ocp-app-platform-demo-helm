@@ -10,10 +10,6 @@ data:
     - name: Parasol Insurance Secured webhook setup
       hosts: localhost
       tasks:
-        - name: Generate webhook secret
-          ansible.builtin.set_fact:
-            _webhook_secret: "{{ "{{" }} lookup('password', '/dev/null chars=ascii_lowercase,digits length=12') {{ "}}" }}"
-
         - name: Retrieve Vault Pod
           kubernetes.core.k8s_info:
             kind: Pod
@@ -29,11 +25,30 @@ data:
             - r_vault.resources[0].status.phase is defined
             - r_vault.resources[0].status.phase == 'Running'
 
+        - name: Check if webhook secret already exists in Vault
+          kubernetes.core.k8s_exec:
+            namespace: {{ $.Values.vault.namespace }}
+            pod: {{ $.Values.vault.name }}-0
+            command: 'vault kv get -field=value kv/secrets/parasol-insurance-secured/webhook-secret'
+          register: r_existing_secret
+          failed_when: false
+
+        - name: Generate webhook secret only if not present
+          ansible.builtin.set_fact:
+            _webhook_secret: "{{ "{{" }} lookup('password', '/dev/null chars=ascii_lowercase,digits length=12') {{ "}}" }}"
+          when: r_existing_secret.rc != 0
+
+        - name: Use existing webhook secret
+          ansible.builtin.set_fact:
+            _webhook_secret: "{{ "{{" }} r_existing_secret.stdout | trim {{ "}}" }}"
+          when: r_existing_secret.rc == 0
+
         - name: Store webhook secret in Vault
           kubernetes.core.k8s_exec:
             namespace: {{ $.Values.vault.namespace }}
             pod: {{ $.Values.vault.name }}-0
             command: 'vault kv put kv/secrets/parasol-insurance-secured/webhook-secret value={{ "{{" }} _webhook_secret {{ "}}" }}'
+          when: r_existing_secret.rc != 0
 
         - name: Wait for EventListener route
           kubernetes.core.k8s_info:
