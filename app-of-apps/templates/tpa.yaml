@@ -19,6 +19,7 @@ spec:
           password: {{ .Values.tpa.postgresql.password | quote }}
           database: {{ .Values.tpa.postgresql.database }}
         oidc:
+          issuerUrl: {{ .Values.tpa.oidcIssuer }}
           tpaCli:
             secret: {{ .Values.keycloak.client.tpaCli.secret | quote }}
 {{ include "app-of-apps.syncPolicy" . | indent 2 }}

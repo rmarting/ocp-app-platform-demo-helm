@@ -66,6 +66,7 @@ persistence:
   capacity: 20Gi
 
 oidc:
+  issuerUrl: ""
   tpaCli:
     secret: ""
 
