@@ -410,9 +410,14 @@ spec:
         enabled: true
         totp: false
         emailVerified: true
-        firstName: '{{ $item.id }}'
-        lastName: 'rhdh'
+        firstName: '{{ $item.firstName | default $item.id }}'
+        lastName: '{{ $item.lastName | default "rhdh" }}'
         email: {{ $item.id }}@rhdemo.com
+{{- if $item.avatar }}
+        attributes:
+          picture:
+            - '{{ $item.avatar }}'
+{{- end }}
         credentials:
           - type: password
             value: {{ include "keycloak.user.password" $ }}

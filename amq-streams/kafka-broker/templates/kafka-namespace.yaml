@@ -7,4 +7,5 @@ metadata:
     {{- include "kafka-namespace.argocd-syncwave" . | nindent 4 }}
   labels:
     argocd.argoproj.io/managed-by: openshift-gitops
+    istio.io/dataplane-mode: ambient
 {{- end }}

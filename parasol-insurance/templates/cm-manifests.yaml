@@ -215,4 +215,3 @@ data:
           retries: 3
           delay: 10
           until: r_tag_trigger is not failed
-          register: r_trigger
