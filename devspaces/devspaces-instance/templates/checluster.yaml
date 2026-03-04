@@ -44,7 +44,7 @@ spec:
     #   openShiftSecurityContextConstraint: container-build
     # containerRunConfiguration:
     #   openShiftSecurityContextConstraint: container-run
-    disableContainerBuildCapabilities: false
+    # disableContainerBuildCapabilities: false
     disableContainerRunCapabilities: false
     defaultEditor: {{ .Values.devEnvironments.defaultEditor }}
     defaultNamespace:
