@@ -23,7 +23,7 @@ spec:
     metrics:
       enable: true
     pluginRegistry:
-      openVSXURL: 'https://open-vsx.org'
+      openVSXURL: {{ .Values.openVSXURL | quote }}
   containerRegistry: {}
   devEnvironments:
     startTimeoutSeconds: {{ .Values.devEnvironments.startTimeoutSeconds }}
@@ -46,6 +46,9 @@ spec:
     #   openShiftSecurityContextConstraint: container-run
     # disableContainerBuildCapabilities: false
     disableContainerRunCapabilities: false
+    env:
+      - name: HOST_USERS
+        value: "false"
     defaultEditor: {{ .Values.devEnvironments.defaultEditor }}
     defaultNamespace:
       autoProvision: true
