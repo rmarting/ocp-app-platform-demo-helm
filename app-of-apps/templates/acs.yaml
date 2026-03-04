@@ -15,5 +15,9 @@ spec:
       valuesObject:
         acs-instance:
           clusterName: {{ .Values.acs.clusterName }}
+          quay:
+            namespace: {{ .Values.quay.namespace }}
+          vault:
+            namespace: {{ .Values.vault.namespace }}
 {{ include "app-of-apps.syncPolicy" . | indent 2 }}
 {{- end }}
