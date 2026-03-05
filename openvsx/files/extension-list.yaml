@@ -3,7 +3,7 @@
 # pre-release versions prevent auto-install in DevSpaces workspaces.
 extensions:
   - id: continue.continue
-    version: 1.2.16
+    version: 1.2.11
   - id: redhat.java
     version: 1.53.0
   - id: redhat.vscode-yaml
