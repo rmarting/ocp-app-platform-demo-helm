@@ -1,3 +1,9 @@
+# The Pipelines operator creates a TektonConfig CR with coschedule set to
+# "workspaces" by default. This mode rejects any task that binds more than one
+# PVC, which breaks tasks like sonar-scan that need both a source and a
+# maven-cache workspace. This PostSync Job patches TektonConfig to use
+# "pipelineruns" mode, which still handles node affinity across the pipeline
+# run but allows individual tasks to mount multiple PVCs.
 ---
 apiVersion: v1
 kind: ServiceAccount
