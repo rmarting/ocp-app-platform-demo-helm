@@ -1,6 +1,6 @@
 gitops:
-  repoURL: https://github.com/markusjnagel/ocp-app-platform-demo-helm.git
-  targetRevision: feat-tpa-install
+  repoURL: https://github.com/redhat-ads-tech/ocp-app-platform-demo-helm.git
+  targetRevision: main
 
 argocd:
   namespace: openshift-gitops
@@ -21,6 +21,7 @@ vault:
       rootPassword: ""
     keycloak:
       clientId: backstage
+      pluginClientId: backstage-plugin
       clientSecret: ""
       pluginClientSecret: ""
       openshiftClientSecret: ""
@@ -34,6 +35,8 @@ vault:
     litellm:
       apiUrl: ""
       apiKey: ""
+    sonarqube:
+      adminPassword: ""
     kafka:
       userPassword: ""
 
@@ -193,6 +196,10 @@ openshiftOAuth:
   name: openshift-oauth
   namespace: openshift-config
 
+kubernetesImagepuller:
+  name: kubernetes-imagepuller
+  namespace: openshift-operators
+
 devspaces:
   enabled: true
   name: devspaces
@@ -203,6 +210,13 @@ amqStreams:
   name: amq-streams
   namespace: kafka
 
+acs:
+  enabled: true
+  name: acs
+  namespace: stackrox
+  clusterName: local-cluster
+  adminPassword: ""
+
 parasolRbac:
   name: parasol-rbac
   namespace: parasol-insurance-dev
@@ -210,6 +224,10 @@ parasolRbac:
 parasolInsurance:
   name: parasol-insurance
   namespace: parasol-insurance-dev
+
+openvsx:
+  name: openvsx
+  namespace: che-openvsx
 
 sonarqube:
   name: sonarqube

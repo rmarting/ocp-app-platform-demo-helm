@@ -10,3 +10,7 @@ namespaces:
   - parasol-insurance-build
 
 clusterRole: admin
+
+clusterAdmins:
+  - pe1
+  - pe2

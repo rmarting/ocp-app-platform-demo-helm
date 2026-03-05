@@ -8,4 +8,4 @@ metadata:
     argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
 spec:
   namespace: {{ .Values.istioCni.namespace }}
-  profile: openshift
+  profile: ambient

@@ -23,6 +23,7 @@ spec:
       data:
         LLM_API_KEY: "{{ printf "{{ .api_key }}" }}"
         LLM_BASE_URL: "{{ printf "{{ .base_url }}" }}"
+        DEV_KAFKA_PASSWORD: "{{ printf "{{ .kafka_password }}" }}"
   data:
     - secretKey: api_key
       remoteRef:
@@ -32,3 +33,7 @@ spec:
       remoteRef:
         key: secrets/litellm/credentials
         property: base_url
+    - secretKey: kafka_password
+      remoteRef:
+        key: secrets/kafka/user-password
+        property: value

@@ -313,10 +313,6 @@ data:
 {{- end }}
 {{- end }}
 
-        - name: Set webhook secret
-          ansible.builtin.set_fact:
-            webhook_secret: "{{ "{{" }} lookup('password', '/dev/null chars=ascii_lowercase length=12') {{ "}}" }}"
-
         - name: Retrieve Vault Pod
           kubernetes.core.k8s_info:
             kind: Pod
@@ -339,7 +335,13 @@ data:
             command: '{{ "{{" }} item {{ "}}" }}'
           loop:
             - 'vault kv put kv/secrets/gitlab/token value={{ "{{" }} root_token {{ "}}" }}'
-            - 'vault kv put kv/secrets/gitlab/webhook-secret value={{ "{{" }} webhook_secret {{ "}}" }}'
+
+        - name: Extend OAuth token expiry to 7 days
+          kubernetes.core.k8s_exec:
+            namespace: {{ $.Release.Namespace }}
+            pod: '{{ "{{" }} r_gitlab_pod.resources[0].metadata.name {{ "}}" }}'
+            command: >-
+              sed -i 's/access_token_expires_in 7200/access_token_expires_in 604800/' /home/git/gitlab/config/initializers/doorkeeper.rb
 
         - name: Create GitLab OAuth application for DevSpaces
           ansible.builtin.uri:

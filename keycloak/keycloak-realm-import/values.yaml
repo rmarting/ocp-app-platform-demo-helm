@@ -25,23 +25,37 @@ hook:
 
 users:
   users:
-    - id: dev1      
+    - id: dev1
+      firstName: Dave
+      lastName: Developer
+      avatar: https://api.dicebear.com/9.x/personas/svg?seed=Dave
       groups:
         - developers
         - devteam1
     - id: dev2
+      firstName: Divya
+      lastName: Developer
+      avatar: https://api.dicebear.com/9.x/personas/svg?seed=Divya
       groups:
         - developers
         - devteam1
     - id: pe1
+      firstName: Paul
+      lastName: PlatEngineer
+      avatar: https://api.dicebear.com/9.x/personas/svg?seed=Paul
       groups:
         - platformengineers
         - rhdh
     - id: pe2
+      firstName: Priya
+      lastName: PlatEngineer
+      avatar: https://api.dicebear.com/9.x/personas/svg?seed=Priya
       groups:
         - platformengineers
         - rhdh
     - id: pipeline
+      firstName: pipeline
+      lastName: service
       groups:
         - infrastructure
   password:

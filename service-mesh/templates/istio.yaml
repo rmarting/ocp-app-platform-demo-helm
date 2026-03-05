@@ -8,7 +8,10 @@ metadata:
     argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
 spec:
   namespace: {{ .Values.istio.namespace }}
+  profile: ambient
   values:
+    pilot:
+      trustedZtunnelNamespace: {{ .Values.ztunnel.namespace }}
     meshConfig:
       discoverySelectors:
         - {{- .Values.istio.discoverySelector | toYaml | nindent 10 }}

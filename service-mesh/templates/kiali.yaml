@@ -15,11 +15,20 @@ spec:
     accessible_namespaces:
       - "**"
     namespace: {{ .Values.istio.namespace }}
-    pod_labels:
-      sidecar.istio.io/inject: "false"
   external_services:
     grafana:
       enabled: false
     tracing:
       enabled: false
+    prometheus:
+      url: https://thanos-querier.openshift-monitoring.svc.cluster.local:9091
+      auth:
+        type: bearer
+        use_kiali_token: true
+    istio:
+      config_map_name: istio-default
+      istio_sidecar_injector_config_map_name: istio-sidecar-injector-default
+      istiod_deployment_name: istiod-default
   istio_namespace: {{ .Values.istio.namespace }}
+  kiali_feature_flags:
+    istio_injection_action: false

@@ -17,11 +17,13 @@ spec:
     devWorkspace: {}
     devfileRegistry: {}
     imagePuller:
-      enable: false
+      enable: true
+      spec:
+        images: "{{ range $i, $entry := .Values.imagePuller.images }}{{ if $i }};{{ end }}{{ $entry.name }}={{ $entry.image }}{{ end }}"
     metrics:
       enable: true
     pluginRegistry:
-      openVSXURL: 'https://open-vsx.org'
+      openVSXURL: {{ .Values.openVSXURL | quote }}
   containerRegistry: {}
   devEnvironments:
     startTimeoutSeconds: {{ .Values.devEnvironments.startTimeoutSeconds }}
@@ -38,9 +40,12 @@ spec:
       limits:
         cpu: {{ .Values.devEnvironments.resources.limits.cpu | quote }}
         memory: {{ .Values.devEnvironments.resources.limits.memory | quote }}
-    containerBuildConfiguration:
-      openShiftSecurityContextConstraint: container-build
-    disableContainerBuildCapabilities: false
+    # containerBuildConfiguration:
+    #   openShiftSecurityContextConstraint: container-build
+    # containerRunConfiguration:
+    #   openShiftSecurityContextConstraint: container-run
+    # disableContainerBuildCapabilities: false
+    disableContainerRunCapabilities: false
     defaultEditor: {{ .Values.devEnvironments.defaultEditor }}
     defaultNamespace:
       autoProvision: true

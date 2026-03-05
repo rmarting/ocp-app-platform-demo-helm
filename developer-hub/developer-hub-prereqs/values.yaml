@@ -9,6 +9,7 @@ vault:
 operator:
   channel: fast-1.8
   startingCSV: rhdh-operator.v1.8.3
+  installPlanApproval: Automatic
 
 argocd:
   enabled: true

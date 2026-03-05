@@ -18,7 +18,10 @@ istio:
   namespace: istio-system
   discoverySelector:
     matchLabels:
-      istio-discovery: enabled
+      istio.io/dataplane-mode: ambient
 
 istioCni:
   namespace: istio-cni
+
+ztunnel:
+  namespace: ztunnel

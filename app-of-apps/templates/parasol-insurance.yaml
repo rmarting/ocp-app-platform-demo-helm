@@ -21,4 +21,7 @@ spec:
           password: {{ .Values.quay.adminUserPassword | quote }}
         cluster:
           subdomain: {{ .Values.cluster.subdomain }}
+        vault:
+          name: {{ .Values.vault.name }}
+          namespace: {{ .Values.vault.namespace }}
 {{ include "app-of-apps.syncPolicy" . | indent 2 }}
