@@ -16,6 +16,6 @@ spec:
         devspaces-instance:
           gitlab:
             host: {{ .Values.gitlab.host }}
-          openVSXURL: http://open-vsx-server.{{ .Values.openvsx.namespace }}.svc:8080
+          openVSXURL: https://open-vsx-server-{{ .Values.openvsx.namespace }}.{{ .Values.cluster.subdomain }}
 {{ include "app-of-apps.syncPolicy" . | indent 2 }}
 {{- end }}
