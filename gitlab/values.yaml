@@ -42,6 +42,8 @@ gitlab:
           url: https://github.com/redhat-ads-tech/devfiles.git
         - name: rhdh-templates
           url: https://github.com/redhat-ads-tech/ocp-app-platform-demo-rhdh-templates.git
+        - name: rhdh-templates-mn
+          url: https://github.com/markusjnagel/ocp-app-platform-demo-rhdh-templates.git
       users:
         - id: pe1
         - id: pe2
