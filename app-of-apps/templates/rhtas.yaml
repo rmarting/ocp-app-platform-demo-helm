@@ -18,4 +18,6 @@ spec:
           org: {{ .Values.rhtas.rootCert.org }}
           instance: {{ .Values.rhtas.instance }}
           namespace: {{ .Values.rhtas.namespace }}
+          vault:
+            namespace: {{ .Values.vault.namespace }}
 {{ include "app-of-apps.syncPolicy" . | indent 2 }}
