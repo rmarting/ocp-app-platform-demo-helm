@@ -22,10 +22,11 @@ spec:
           command: ["/bin/bash", "-c"]
           args:
             - |
-              # Wait for Vault to be ready
+              # Wait for Vault KV engine to be ready (vault-setup job must have
+              # finished enabling KV v2 and logging in with the root token)
               echo "Waiting for Vault..."
-              until oc exec vault-0 -n "$VAULT_NAMESPACE" -- vault status 2>/dev/null | grep -q "Sealed.*false"; do
-                echo "Vault not ready, retrying in 10s..."
+              until oc exec vault-0 -n "$VAULT_NAMESPACE" -- vault kv list kv/secrets 2>/dev/null; do
+                echo "Vault KV engine not ready, retrying in 10s..."
                 sleep 10
               done
               echo "Vault is ready"

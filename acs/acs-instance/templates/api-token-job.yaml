@@ -37,6 +37,15 @@ spec:
               PASSWORD=$(oc get secret central-htpasswd -n stackrox -o jsonpath='{.data.password}' | base64 -d)
 {{- end }}
 
+              # Wait for Vault KV engine to be ready (vault-setup job must have
+              # finished enabling KV v2 and logging in with the root token)
+              echo "Waiting for Vault..."
+              until oc exec vault-0 -n "$VAULT_NAMESPACE" -- vault kv list kv/secrets 2>/dev/null; do
+                echo "Vault KV engine not ready, retrying in 10s..."
+                sleep 10
+              done
+              echo "Vault is ready"
+
               # Check if token already exists in Vault
               echo "Checking if API token already exists in Vault..."
               EXISTING_TOKEN=$(oc exec vault-0 -n "$VAULT_NAMESPACE" -- vault kv get -field=value kv/secrets/acs/api-token 2>/dev/null)
