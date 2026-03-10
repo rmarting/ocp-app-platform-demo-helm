@@ -1,0 +1,2 @@
+tooling:
+  image: quay.io/tssc_demos/etx-custom-web-terminal:v0.1
