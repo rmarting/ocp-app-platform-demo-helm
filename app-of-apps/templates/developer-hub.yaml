@@ -13,10 +13,10 @@ spec:
     helm:
       valuesObject:
         operator:
-          source: {{ include "app-of-apps.operatorSource" . }}
-          {{- if .Values.catalogSource.enabled }}
-          startingCSV: ""
-          {{- end }}
+          # Uses the live catalog instead of the pinned snapshot because
+          # fast-1.9 is not available in the snapshot image.
+          source: redhat-operators
+          sourceNamespace: openshift-marketplace
         vault:
           namespace: {{ .Values.vault.namespace }}
           name: {{ .Values.vault.name }}
@@ -48,6 +48,8 @@ spec:
           host: {{ .Values.developerHub.config.keycloak.host }}
           realm: {{ .Values.developerHub.config.keycloak.realm }}
           loginRealm: {{ .Values.developerHub.config.keycloak.loginRealm }}
+        sonarqube:
+          host: sonarqube-sonarqube.{{ .Values.cluster.subdomain }}
         cluster:
           subdomain: {{ .Values.cluster.subdomain }}
         devMode: {{ eq .Values.gitops.targetRevision "dev" }}

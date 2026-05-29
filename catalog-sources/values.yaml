@@ -5,3 +5,7 @@ catalogSources:
     namespace: openshift-marketplace
     displayName: "Red Hat Operators (Snapshot)"
     publisher: "Red Hat Demo Platform"
+    grpcPodConfig:
+      extractContent:
+        catalogDir: /configs
+        cacheDir: /tmp/cache

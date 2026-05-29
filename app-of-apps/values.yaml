@@ -16,6 +16,10 @@ catalogSource:
   tag: v4.20_2026_02_11
   displayName: "Red Hat Operators (Snapshot)"
   publisher: "Red Hat Demo Platform"
+  grpcPodConfig:
+    extractContent:
+      catalogDir: /configs
+      cacheDir: /tmp/cache
 
 cluster:
   subdomain: ""
@@ -251,6 +255,10 @@ openvsx:
 sonarqube:
   name: sonarqube
   namespace: sonarqube
+
+jiraStub:
+  name: jira-stub
+  namespace: rhdh
 
 orchestrator:
   name: orchestrator
